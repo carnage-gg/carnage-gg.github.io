@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/navbar.css">
+    <title>System Information - Carnage</title>
+    <style>
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #1a1a2e;
+            --accent-bg: #16213e;
+            --card-bg: rgba(26, 26, 46, 0.9);
+            --primary-accent: #ff6b35;
+            --secondary-accent: #f39c12;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #6c757d;
+            --border-color: rgba(255, 107, 53, 0.2);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --shadow-light: rgba(255, 107, 53, 0.1);
+            --shadow-medium: rgba(255, 107, 53, 0.2);
+            --shadow-heavy: rgba(255, 107, 53, 0.3);
+            --glow-primary: 0 0 30px rgba(255, 107, 53, 0.5);
+            --glow-secondary: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Theme Support */
+        [data-theme="blue"] {
+            --primary-accent: #3b82f6;
+            --secondary-accent: #1d4ed8;
+            --border-color: rgba(59, 130, 246, 0.2);
+            --shadow-light: rgba(59, 130, 246, 0.1);
+            --shadow-medium: rgba(59, 130, 246, 0.2);
+            --shadow-heavy: rgba(59, 130, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(59, 130, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        [data-theme="green"] {
+            --primary-accent: #10b981;
+            --secondary-accent: #059669;
+            --border-color: rgba(16, 185, 129, 0.2);
+            --shadow-light: rgba(16, 185, 129, 0.1);
+            --shadow-medium: rgba(16, 185, 129, 0.2);
+            --shadow-heavy: rgba(16, 185, 129, 0.3);
+            --glow-primary: 0 0 30px rgba(16, 185, 129, 0.5);
+            --glow-secondary: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        [data-theme="purple"] {
+            --primary-accent: #8b5cf6;
+            --secondary-accent: #7c3aed;
+            --border-color: rgba(139, 92, 246, 0.2);
+            --shadow-light: rgba(139, 92, 246, 0.1);
+            --shadow-medium: rgba(139, 92, 246, 0.2);
+            --shadow-heavy: rgba(139, 92, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(139, 92, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        [data-theme="red"] {
+            --primary-accent: #ef4444;
+            --secondary-accent: #dc2626;
+            --border-color: rgba(239, 68, 68, 0.2);
+            --shadow-light: rgba(239, 68, 68, 0.1);
+            --shadow-medium: rgba(239, 68, 68, 0.2);
+            --shadow-heavy: rgba(239, 68, 68, 0.3);
+            --glow-primary: 0 0 30px rgba(239, 68, 68, 0.5);
+            --glow-secondary: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        [data-theme="pink"] {
+            --primary-accent: #ec4899;
+            --secondary-accent: #db2777;
+            --border-color: rgba(236, 72, 153, 0.2);
+            --shadow-light: rgba(236, 72, 153, 0.1);
+            --shadow-medium: rgba(236, 72, 153, 0.2);
+            --shadow-heavy: rgba(236, 72, 153, 0.3);
+            --glow-primary: 0 0 30px rgba(236, 72, 153, 0.5);
+            --glow-secondary: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        [data-theme="cyan"] {
+            --primary-accent: #06b6d4;
+            --secondary-accent: #0891b2;
+            --border-color: rgba(6, 182, 212, 0.2);
+            --shadow-light: rgba(6, 182, 212, 0.1);
+            --shadow-medium: rgba(6, 182, 212, 0.2);
+            --shadow-heavy: rgba(6, 182, 212, 0.3);
+            --glow-primary: 0 0 30px rgba(6, 182, 212, 0.5);
+            --glow-secondary: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            text-shadow: var(--glow-primary);
+            animation: glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            0% { text-shadow: var(--glow-secondary); }
+            100% { text-shadow: var(--glow-primary); }
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .system-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .system-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--shadow-light) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .system-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-accent);
+            box-shadow: 0 10px 25px var(--shadow-medium);
+        }
+
+        .system-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-online {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 4px;
+            transition: width 1s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--shadow-medium);
+        }
+
+        .refresh-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chart-container {
+            height: 200px;
+            margin: 1rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .network-test {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .test-btn {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .test-btn:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            background: var(--shadow-light);
+        }
+
+        .test-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .page-content {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .system-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .network-test {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <nav class="top-navbar">
+        <div class="navbar-brand">
+            <h1 class="navbar-logo">CARNAGE</h1>
+        </div>
+        
+        <ul class="navbar-menu">
+            <li><a href="home.html" class="navbar-link" data-page="home">
+                <div class="navbar-icon home-icon"></div>
+                <span>Home</span>
+            </a></li>
+            <li><a href="games.html" class="navbar-link" data-page="games">
+                <div class="navbar-icon games-icon"></div>
+                <span>Games</span>
+            </a></li>
+            <li><a href="music.html" class="navbar-link" data-page="music">
+                <div class="navbar-icon music-icon"></div>
+                <span>Music</span>
+            </a></li>
+            <li><a href="tools.html" class="navbar-link" data-page="tools">
+                <div class="navbar-icon tools-icon"></div>
+                <span>Tools</span>
+            </a></li>
+            <li><a href="system.html" class="navbar-link" data-page="system">
+                <div class="navbar-icon system-icon"></div>
+                <span>System</span>
+            </a></li>
+            <li><a href="settings.html" class="navbar-link" data-page="settings">
+                <div class="navbar-icon settings-icon"></div>
+                <span>Settings</span>
+            </a></li>
+        </ul>
+    </nav>
+</head>
+<body>
+    <div class="page-content">
+        <div class="page-header">
+            <h1 class="page-title">System Information</h1>
+            <p class="page-subtitle">Monitor your system performance and network status</p>
+        </div>
+
+        <button class="refresh-btn" id="refresh-btn" onclick="refreshSystemInfo()">
+            <span id="refresh-icon">🔄</span>
+            Refresh System Info
+        </button>
+
+        <div class="system-grid">
+            <!-- Browser Information -->
+            <div class="system-card">
+                <div class="card-header">
+                    <div class="card-icon">🌐</div>
+                    <h3 class="card-title">Browser Information</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Browser</span>
+                    <span class="info-value" id="browser-name">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Version</span>
+                    <span class="info-value" id="browser-version">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">User Agent</span>
+                    <span class="info-value" id="user-agent">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Cookies Enabled</span>
+                    <span class="info-value" id="cookies-enabled">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">JavaScript Enabled</span>
+                    <span class="info-value status-indicator status-online">✓ Yes</span>
+                </div>
+            </div>
+
+            <!-- Screen Information -->
+            <div class="system-card">
+                <div class="card-header">
+                    <div class="card-icon">🖥️</div>
+                    <h3 class="card-title">Display Information</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Screen Resolution</span>
+                    <span class="info-value" id="screen-resolution">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Available Resolution</span>
+                    <span class="info-value" id="available-resolution">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Color Depth</span>
+                    <span class="info-value" id="color-depth">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Pixel Ratio</span>
+                    <span class="info-value" id="pixel-ratio">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Orientation</span>
+                    <span class="info-value" id="orientation">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Network Information -->
+            <div class="system-card">
+                <div class="card-header">
+                    <div class="card-icon">📡</div>
+                    <h3 class="card-title">Network Information</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Connection Status</span>
+                    <span class="info-value status-indicator" id="connection-status">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Connection Type</span>
+                    <span class="info-value" id="connection-type">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Effective Type</span>
+                    <span class="info-value" id="effective-type">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Downlink Speed</span>
+                    <span class="info-value" id="downlink-speed">Loading...</span>
+                </div>
+                <div class="network-test">
+                    <button class="test-btn" onclick="testLatency()">Test Latency</button>
+                    <button class="test-btn" onclick="testSpeed()">Test Speed</button>
+                </div>
+            </div>
+
+            <!-- Memory Usage -->
+            <div class="system-card">
+                <div class="card-header">
+                    <div class="card-icon">💾</div>
+                    <h3 class="card-title">Memory Usage</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Used JS Heap</span>
+                    <span class="info-value" id="used-heap">Loading...</span>
+                </div
+                <div class="info-item">
+                    <span class="info-label">Total JS Heap</span>
+                    <span class="info-value" id="total-heap">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Heap Limit</span>
+                    <span class="info-value" id="heap-limit">Loading...</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="memory-progress" style="width: 0%"></div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Memory Usage</span>
+                    <span class="info-value" id="memory-percentage">0%</span>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="system-card">
+                <div class="card-header">
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">Performance Metrics</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Page Load Time</span>
+                    <span class="info-value" id="page-load-time">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DOM Content Loaded</span>
+                    <span class="info-value" id="dom-content-loaded">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">First Paint</span>
+                    <span class="info-value" id="first-paint">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">First Contentful Paint</span>
+                    <span class="info-value" id="first-contentful-paint">Loading...</span>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-placeholder">Performance Timeline Chart</div>
+                </div>
+            </div>
+
+            <!-- System Capabilities -->
+            <div class="system-card">
+                <div class="card-header">
+                    <div class="card-icon">🔧</div>
+                    <h3 class="card-title">System Capabilities</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Local Storage</span>
+                    <span class="info-value status-indicator" id="local-storage">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Session Storage</span>
+                    <span class="info-value status-indicator" id="session-storage">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">IndexedDB</span>
+                    <span class="info-value status-indicator" id="indexed-db">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Web Workers</span>
+                    <span class="info-value status-indicator" id="web-workers">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Service Workers</span>
+                    <span class="info-value status-indicator" id="service-workers">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">WebGL</span>
+                    <span class="info-value status-indicator" id="webgl">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">WebRTC</span>
+                    <span class="info-value status-indicator" id="webrtc">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Geolocation</span>
+                    <span class="info-value status-indicator" id="geolocation">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isRefreshing = false;
+
+        // Apply theme
+        function applyTheme() {
+            const theme = localStorage.getItem('carnage_theme') || 'orange';
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        // Format bytes
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Format time
+        function formatTime(ms) {
+            if (ms < 1000) return ms.toFixed(2) + ' ms';
+            return (ms / 1000).toFixed(2) + ' s';
+        }
+
+        // Create status indicator
+        function createStatusIndicator(supported, text) {
+            const className = supported ? 'status-online' : 'status-error';
+            const icon = supported ? '✓' : '✗';
+            return `<span class="status-indicator ${className}">${icon} ${text}</span>`;
+        }
+
+        // Get browser information
+        function getBrowserInfo() {
+            const ua = navigator.userAgent;
+            let browserName = 'Unknown';
+            let browserVersion = 'Unknown';
+
+            if (ua.indexOf('Chrome') > -1) {
+                browserName = 'Chrome';
+                browserVersion = ua.match(/Chrome\/([0-9.]+)/)?.[1] || 'Unknown';
+            } else if (ua.indexOf('Firefox') > -1) {
+                browserName = 'Firefox';
+                browserVersion = ua.match(/Firefox\/([0-9.]+)/)?.[1] || 'Unknown';
+            } else if (ua.indexOf('Safari') > -1) {
+                browserName = 'Safari';
+                browserVersion = ua.match(/Version\/([0-9.]+)/)?.[1] || 'Unknown';
+            } else if (ua.indexOf('Edge') > -1) {
+                browserName = 'Edge';
+                browserVersion = ua.match(/Edge\/([0-9.]+)/)?.[1] || 'Unknown';
+            }
+
+            document.getElementById('browser-name').textContent = browserName;
+            document.getElementById('browser-version').textContent = browserVersion;
+            document.getElementById('user-agent').textContent = ua.length > 50 ? ua.substring(0, 50) + '...' : ua;
+            document.getElementById('cookies-enabled').innerHTML = createStatusIndicator(navigator.cookieEnabled, navigator.cookieEnabled ? 'Yes' : 'No');
+        }
+
+        // Get screen information
+        function getScreenInfo() {
+            document.getElementById('screen-resolution').textContent = `${screen.width} × ${screen.height}`;
+            document.getElementById('available-resolution').textContent = `${screen.availWidth} × ${screen.availHeight}`;
+            document.getElementById('color-depth').textContent = `${screen.colorDepth} bits`;
+            document.getElementById('pixel-ratio').textContent = window.devicePixelRatio || 1;
+            document.getElementById('orientation').textContent = screen.orientation ? screen.orientation.type : 'Unknown';
+        }
+
+        // Get network information
+        function getNetworkInfo() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            
+            // Connection status
+            const isOnline = navigator.onLine;
+            document.getElementById('connection-status').innerHTML = createStatusIndicator(isOnline, isOnline ? 'Online' : 'Offline');
+
+            if (connection) {
+                document.getElementById('connection-type').textContent = connection.type || 'Unknown';
+                document.getElementById('effective-type').textContent = connection.effectiveType || 'Unknown';
+                document.getElementById('downlink-speed').textContent = connection.downlink ? `${connection.downlink} Mbps` : 'Unknown';
+            } else {
+                document.getElementById('connection-type').textContent = 'Not Available';
+                document.getElementById('effective-type').textContent = 'Not Available';
+                document.getElementById('downlink-speed').textContent = 'Not Available';
+            }
+        }
+
+        // Get memory information
+        function getMemoryInfo() {
+            if (performance.memory) {
+                const used = performance.memory.usedJSHeapSize;
+                const total = performance.memory.totalJSHeapSize;
+                const limit = performance.memory.jsHeapSizeLimit;
+                
+                document.getElementById('used-heap').textContent = formatBytes(used);
+                document.getElementById('total-heap').textContent = formatBytes(total);
+                document.getElementById('heap-limit').textContent = formatBytes(limit);
+                
+                const percentage = Math.round((used / limit) * 100);
+                document.getElementById('memory-percentage').textContent = `${percentage}%`;
+                document.getElementById('memory-progress').style.width = `${percentage}%`;
+            } else {
+                document.getElementById('used-heap').textContent = 'Not Available';
+                document.getElementById('total-heap').textContent = 'Not Available';
+                document.getElementById('heap-limit').textContent = 'Not Available';
+                document.getElementById('memory-percentage').textContent = 'N/A';
+            }
+        }
+
+        // Get performance metrics
+        function getPerformanceMetrics() {
+            if (performance.timing) {
+                const timing = performance.timing;
+                const loadTime = timing.loadEventEnd - timing.navigationStart;
+                const domContentLoaded = timing.domContentLoadedEventEnd - timing.navigationStart;
+                
+                document.getElementById('page-load-time').textContent = formatTime(loadTime);
+                document.getElementById('dom-content-loaded').textContent = formatTime(domContentLoaded);
+            }
+
+            if (performance.getEntriesByType) {
+                const paintEntries = performance.getEntriesByType('paint');
+                const firstPaint = paintEntries.find(entry => entry.name === 'first-paint');
+                const firstContentfulPaint = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+                
+                document.getElementById('first-paint').textContent = firstPaint ? formatTime(firstPaint.startTime) : 'Not Available';
+                document.getElementById('first-contentful-paint').textContent = firstContentfulPaint ? formatTime(firstContentfulPaint.startTime) : 'Not Available';
+            }
+        }
+
+        // Check system capabilities
+        function checkCapabilities() {
+            // Local Storage
+            let localStorageSupported = false;
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                localStorageSupported = true;
+            } catch (e) {
+                localStorageSupported = false;
+            }
+            document.getElementById('local-storage').innerHTML = createStatusIndicator(localStorageSupported, localStorageSupported ? 'Supported' : 'Not Supported');
+
+            // Session Storage
+            let sessionStorageSupported = false;
+            try {
+                sessionStorage.setItem('test', 'test');
+                sessionStorage.removeItem('test');
+                sessionStorageSupported = true;
+            } catch (e) {
+                sessionStorageSupported = false;
+            }
+            document.getElementById('session-storage').innerHTML = createStatusIndicator(sessionStorageSupported, sessionStorageSupported ? 'Supported' : 'Not Supported');
+
+            // IndexedDB
+            const indexedDBSupported = 'indexedDB' in window;
+            document.getElementById('indexed-db').innerHTML = createStatusIndicator(indexedDBSupported, indexedDBSupported ? 'Supported' : 'Not Supported');
+
+            // Web Workers
+            const webWorkersSupported = 'Worker' in window;
+            document.getElementById('web-workers').innerHTML = createStatusIndicator(webWorkersSupported, webWorkersSupported ? 'Supported' : 'Not Supported');
+
+            // Service Workers
+            const serviceWorkersSupported = 'serviceWorker' in navigator;
+            document.getElementById('service-workers').innerHTML = createStatusIndicator(serviceWorkersSupported, serviceWorkersSupported ? 'Supported' : 'Not Supported');
+
+            // WebGL
+            let webGLSupported = false;
+            try {
+                const canvas = document.createElement('canvas');
+                webGLSupported = !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+            } catch (e) {
+                webGLSupported = false;
+            }
+            document.getElementById('webgl').innerHTML = createStatusIndicator(webGLSupported, webGLSupported ? 'Supported' : 'Not Supported');
+
+            // WebRTC
+            const webRTCSupported = 'RTCPeerConnection' in window || 'webkitRTCPeerConnection' in window || 'mozRTCPeerConnection' in window;
+            document.getElementById('webrtc').innerHTML = createStatusIndicator(webRTCSupported, webRTCSupported ? 'Supported' : 'Not Supported');
+
+            // Geolocation
+            const geolocationSupported = 'geolocation' in navigator;
+            document.getElementById('geolocation').innerHTML = createStatusIndicator(geolocationSupported, geolocationSupported ? 'Supported' : 'Not Supported');
+        }
+
+        // Test latency
+        async function testLatency() {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = 'Testing...';
+
+            try {
+                const start = performance.now();
+                await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors' });
+                const end = performance.now();
+                const latency = Math.round(end - start);
+                
+                btn.textContent = `${latency}ms`;
+                
+                if (window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'notification',
+                        message: `Network latency: ${latency}ms`,
+                        level: 'info'
+                    }, '*');
+                }
+            } catch (error) {
+                btn.textContent = 'Failed';
+                if (window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'notification',
+                        message: 'Latency test failed',
+                        level: 'error'
+                    }, '*');
+                }
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.textContent = 'Test Latency';
+                }, 3000);
+            }
+        }
+
+        // Test speed (simplified)
+        async function testSpeed() {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = 'Testing...';
+
+            try {
+                const start = performance.now();
+                const response = await fetch('https://httpbin.org/bytes/1000000', { mode: 'cors' });
+                await response.blob();
+                const end = performance.now();
+                
+                const duration = (end - start) / 1000; // seconds
+                const speed = (1000000 * 8) / (duration * 1000000); // Mbps
+                
+                btn.textContent = `${speed.toFixed(2)} Mbps`;
+                
+                if (window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'notification',
+                        message: `Download speed: ${speed.toFixed(2)} Mbps`,
+                        level: 'info'
+                    }, '*');
+                }
+            } catch (error) {
+                btn.textContent = 'Failed';
+                if (window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'notification',
+                        message: 'Speed test failed',
+                        level: 'error'
+                    }, '*');
+                }
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.textContent = 'Test Speed';
+                }, 3000);
+            }
+        }
+
+        // Refresh system information
+        function refreshSystemInfo() {
+            if (isRefreshing) return;
+            
+            isRefreshing = true;
+            const btn = document.getElementById('refresh-btn');
+            const icon = document.getElementById('refresh-icon');
+            
+            btn.disabled = true;
+            icon.innerHTML = '<div class="loading-spinner"></div>';
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                getBrowserInfo();
+                getScreenInfo();
+                getNetworkInfo();
+                getMemoryInfo();
+                getPerformanceMetrics();
+                checkCapabilities();
+                
+                btn.disabled = false;
+                icon.textContent = '🔄';
+                isRefreshing = false;
+                
+                if (window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'notification',
+                        message: 'System information refreshed',
+                        level: 'success'
+                    }, '*');
+                }
+            }, 1000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
+            refreshSystemInfo();
+            
+            // Update memory info periodically
+            setInterval(() => {
+                if (!isRefreshing) {
+                    getMemoryInfo();
+                }
+            }, 5000);
+            
+            // Listen for online/offline events
+            window.addEventListener('online', getNetworkInfo);
+            window.addEventListener('offline', getNetworkInfo);
+        });
+
+        // Listen for theme changes
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'theme-changed') {
+                applyTheme();
+            }
+        });
+    </script>
+    <script src="js/disable-devtools.js"></script>
+    <script src="js/advanced-redirect.js"></script>
+</body>
+</html>

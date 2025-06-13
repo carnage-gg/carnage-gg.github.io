@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/navbar.css">
+    <title>Tools & Utilities - Carnage</title>
+    <style>
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #1a1a2e;
+            --accent-bg: #16213e;
+            --card-bg: rgba(26, 26, 46, 0.9);
+            --primary-accent: #ff6b35;
+            --secondary-accent: #f39c12;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #6c757d;
+            --border-color: rgba(255, 107, 53, 0.2);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --shadow-light: rgba(255, 107, 53, 0.1);
+            --shadow-medium: rgba(255, 107, 53, 0.2);
+            --shadow-heavy: rgba(255, 107, 53, 0.3);
+            --glow-primary: 0 0 30px rgba(255, 107, 53, 0.5);
+            --glow-secondary: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Theme Support */
+        [data-theme="blue"] {
+            --primary-accent: #3b82f6;
+            --secondary-accent: #1d4ed8;
+            --border-color: rgba(59, 130, 246, 0.2);
+            --shadow-light: rgba(59, 130, 246, 0.1);
+            --shadow-medium: rgba(59, 130, 246, 0.2);
+            --shadow-heavy: rgba(59, 130, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(59, 130, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        [data-theme="green"] {
+            --primary-accent: #10b981;
+            --secondary-accent: #059669;
+            --border-color: rgba(16, 185, 129, 0.2);
+            --shadow-light: rgba(16, 185, 129, 0.1);
+            --shadow-medium: rgba(16, 185, 129, 0.2);
+            --shadow-heavy: rgba(16, 185, 129, 0.3);
+            --glow-primary: 0 0 30px rgba(16, 185, 129, 0.5);
+            --glow-secondary: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        [data-theme="purple"] {
+            --primary-accent: #8b5cf6;
+            --secondary-accent: #7c3aed;
+            --border-color: rgba(139, 92, 246, 0.2);
+            --shadow-light: rgba(139, 92, 246, 0.1);
+            --shadow-medium: rgba(139, 92, 246, 0.2);
+            --shadow-heavy: rgba(139, 92, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(139, 92, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        [data-theme="red"] {
+            --primary-accent: #ef4444;
+            --secondary-accent: #dc2626;
+            --border-color: rgba(239, 68, 68, 0.2);
+            --shadow-light: rgba(239, 68, 68, 0.1);
+            --shadow-medium: rgba(239, 68, 68, 0.2);
+            --shadow-heavy: rgba(239, 68, 68, 0.3);
+            --glow-primary: 0 0 30px rgba(239, 68, 68, 0.5);
+            --glow-secondary: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        [data-theme="pink"] {
+            --primary-accent: #ec4899;
+            --secondary-accent: #db2777;
+            --border-color: rgba(236, 72, 153, 0.2);
+            --shadow-light: rgba(236, 72, 153, 0.1);
+            --shadow-medium: rgba(236, 72, 153, 0.2);
+            --shadow-heavy: rgba(236, 72, 153, 0.3);
+            --glow-primary: 0 0 30px rgba(236, 72, 153, 0.5);
+            --glow-secondary: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        [data-theme="cyan"] {
+            --primary-accent: #06b6d4;
+            --secondary-accent: #0891b2;
+            --border-color: rgba(6, 182, 212, 0.2);
+            --shadow-light: rgba(6, 182, 212, 0.1);
+            --shadow-medium: rgba(6, 182, 212, 0.2);
+            --shadow-heavy: rgba(6, 182, 212, 0.3);
+            --glow-primary: 0 0 30px rgba(6, 182, 212, 0.5);
+            --glow-secondary: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            text-shadow: var(--glow-primary);
+            animation: glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            0% { text-shadow: var(--glow-secondary); }
+            100% { text-shadow: var(--glow-primary); }
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .tools-categories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            backdrop-filter: blur(20px);
+        }
+
+        .category-tab:hover,
+        .category-tab.active {
+            background: var(--primary-accent);
+            color: white;
+            border-color: var(--primary-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--shadow-medium);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--shadow-light) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-accent);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .tool-info {
+            flex: 1;
+        }
+
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-category {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-features {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-feature {
+            background: var(--shadow-light);
+            color: var(--primary-accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .use-btn {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .use-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--shadow-medium);
+        }
+
+        .bookmark-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+        }
+
+        .bookmark-btn:hover,
+        .bookmark-btn.active {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            background: var(--shadow-light);
+        }
+
+        .search-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 20px var(--shadow-medium);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .page-content {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+
+            .tools-categories {
+                gap: 0.5rem;
+            }
+
+            .category-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-actions {
+                flex-direction: column;
+            }
+
+            .bookmark-btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <nav class="top-navbar">
+        <div class="navbar-brand">
+            <h1 class="navbar-logo">CARNAGE</h1>
+        </div>
+        
+        <ul class="navbar-menu">
+            <li><a href="home.html" class="navbar-link" data-page="home">
+                <div class="navbar-icon home-icon"></div>
+                <span>Home</span>
+            </a></li>
+            <li><a href="games.html" class="navbar-link" data-page="games">
+                <div class="navbar-icon games-icon"></div>
+                <span>Games</span>
+            </a></li>
+            <li><a href="music.html" class="navbar-link" data-page="music">
+                <div class="navbar-icon music-icon"></div>
+                <span>Music</span>
+            </a></li>
+            <li><a href="tools.html" class="navbar-link" data-page="tools">
+                <div class="navbar-icon tools-icon"></div>
+                <span>Tools</span>
+            </a></li>
+            <li><a href="system.html" class="navbar-link" data-page="system">
+                <div class="navbar-icon system-icon"></div>
+                <span>System</span>
+            </a></li>
+            <li><a href="settings.html" class="navbar-link" data-page="settings">
+                <div class="navbar-icon settings-icon"></div>
+                <span>Settings</span>
+            </a></li>
+        </ul>
+    </nav>
+</head>
+<body>
+    <div class="page-content">
+        <div class="page-header">
+            <h1 class="page-title">Tools & Utilities</h1>
+            <p class="page-subtitle">Powerful tools to boost your productivity</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-input" id="tool-search" placeholder="Search for tools...">
+        </div>
+
+        <div class="tools-categories">
+            <div class="category-tab active" data-category="all">All Tools</div>
+            <div class="category-tab" data-category="productivity">Productivity</div>
+            <div class="category-tab" data-category="development">Development</div>
+            <div class="category-tab" data-category="design">Design</div>
+            <div class="category-tab" data-category="utility">Utility</div>
+            <div class="category-tab" data-category="converter">Converter</div>
+            <div class="category-tab" data-category="generator">Generator</div>
+        </div>
+
+        <div class="tools-grid" id="tools-container">
+            <!-- Tools will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Tools data
+        const tools = [
+            {
+                id: 1,
+                title: "Password Generator",
+                description: "Generate secure passwords with customizable options including length, symbols, and complexity.",
+                category: "generator",
+                icon: "🔐",
+                features: ["Secure", "Customizable", "Copy to Clipboard"],
+                url: "https://passwordsgenerator.net/"
+            },
+            {
+                id: 2,
+                title: "QR Code Generator",
+                description: "Create QR codes for URLs, text, WiFi passwords, and more with various customization options.",
+                category: "generator",
+                icon: "📱",
+                features: ["Multiple Types", "Customizable", "High Quality"],
+                url: "https://www.qr-code-generator.com/"
+            },
+            {
+                id: 3,
+                title: "Color Picker",
+                description: "Advanced color picker tool with hex, RGB, HSL support and palette generation.",
+                category: "design",
+                icon: "🎨",
+                features: ["Multiple Formats", "Palette Generator", "Color Harmony"],
+                url: "https://htmlcolorcodes.com/color-picker/"
+            },
+            {
+                id: 4,
+                title: "JSON Formatter",
+                description: "Format, validate, and beautify JSON data with syntax highlighting and error detection.",
+                category: "development",
+                icon: "📋",
+                features: ["Format", "Validate", "Minify"],
+                url: "https://jsonformatter.curiousconcept.com/"
+            },
+            {
+                id: 5,
+                title: "Base64 Encoder/Decoder",
+                description: "Encode and decode Base64 strings with support for text, images, and files.",
+                category: "converter",
+                icon: "🔄",
+                features: ["Text & Files", "Batch Processing", "Safe & Secure"],
+                url: "https://www.base64encode.org/"
+            },
+            {
+                id: 6,
+                title: "URL Shortener",
+                description: "Create short, memorable URLs with click tracking and custom aliases.",
+                category: "utility",
+                icon: "🔗",
+                features: ["Custom Aliases", "Analytics", "Bulk Shortening"],
+                url: "https://tinyurl.com/"
+            },
+            {
+                id: 7,
+                title: "Markdown Editor",
+                description: "Live markdown editor with preview, syntax highlighting, and export options.",
+                category: "productivity",
+                icon: "📝",
+                features: ["Live Preview", "Export Options", "Syntax Highlighting"],
+                url: "https://dillinger.io/"
+            },
+            {
+                id: 8,
+                title: "Image Compressor",
+                description: "Compress images without losing quality. Supports JPEG, PNG, WebP formats.",
+                category: "utility",
+                icon: "🖼️",
+                features: ["Lossless", "Multiple Formats", "Batch Processing"],
+                url: "https://tinypng.com/"
+            },
+            {
+                id: 9,
+                title: "CSS Gradient Generator",
+                description: "Create beautiful CSS gradients with live preview and copy-to-clipboard functionality.",
+                category: "design",
+                icon: "🌈",
+                features: ["Live Preview", "Multiple Types", "CSS Export"],
+                url: "https://cssgradient.io/"
+            },
+            {
+                id: 10,
+                title: "Lorem Ipsum Generator",
+                description: "Generate placeholder text in various formats and lengths for your projects.",
+                category: "generator",
+                icon: "📄",
+                features: ["Multiple Formats", "Custom Length", "Copy to Clipboard"],
+                url: "https://www.lipsum.com/"
+            },
+            {
+                id: 11,
+                title: "Hash Generator",
+                description: "Generate MD5, SHA1, SHA256, and other hash values for text and files.",
+                category: "utility",
+                icon: "🔒",
+                features: ["Multiple Algorithms", "File Support", "Secure"],
+                url: "https://www.md5hashgenerator.com/"
+            },
+            {
+                id: 12,
+                title: "Regex Tester",
+                description: "Test and debug regular expressions with real-time matching and explanation.",
+                category: "development",
+                icon: "🔍",
+                features: ["Real-time Testing", "Explanation", "Cheat Sheet"],
+                url: "https://regex101.com/"
+            },
+            {
+                id: 13,
+                title: "Unit Converter",
+                description: "Convert between different units of measurement including length, weight, temperature.",
+                category: "converter",
+                icon: "📏",
+                features: ["Multiple Categories", "Precise Calculations", "History"],
+                url: "https://www.unitconverters.net/"
+            },
+            {
+                id: 14,
+                title: "Pomodoro Timer",
+                description: "Boost productivity with the Pomodoro Technique timer and task tracking.",
+                category: "productivity",
+                icon: "⏰",
+                features: ["Customizable", "Task Tracking", "Statistics"],
+                url: "https://pomofocus.io/"
+            },
+            {
+                id: 15,
+                title: "Code Beautifier",
+                description: "Format and beautify code in multiple programming languages with syntax highlighting.",
+                category: "development",
+                icon: "💻",
+                features: ["Multiple Languages", "Syntax Highlighting", "Minify Option"],
+                url: "https://codebeautify.org/"
+            },
+            {
+                id: 16,
+                title: "Font Identifier",
+                description: "Identify fonts from images using AI-powered recognition technology.",
+                category: "design",
+                icon: "🔤",
+                features: ["AI-Powered", "High Accuracy", "Font Suggestions"],
+                url: "https://www.whatfontis.com/"
+            },
+            {
+                id: 17,
+                title: "Website Speed Test",
+                description: "Test your website's loading speed and get optimization recommendations.",
+                category: "utility",
+                icon: "⚡",
+                features: ["Detailed Analysis", "Optimization Tips", "Mobile & Desktop"],
+                url: "https://gtmetrix.com/"
+            },
+            {
+                id: 18,
+                title: "ASCII Art Generator",
+                description: "Convert text and images into ASCII art with various styles and fonts.",
+                category: "generator",
+                icon: "🎭",
+                features: ["Text & Images", "Multiple Styles", "Customizable"],
+                url: "https://patorjk.com/software/taag/"
+            }
+        ];
+
+        let currentFilter = 'all';
+        let searchQuery = '';
+        let bookmarks = JSON.parse(localStorage.getItem('carnage_bookmarks') || '[]');
+
+        // Apply theme
+        function applyTheme() {
+            const theme = localStorage.getItem('carnage_theme') || 'orange';
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        // Render tools
+        function renderTools() {
+            const container = document.getElementById('tools-container');
+            let filteredTools = tools;
+
+            // Apply category filter
+            if (currentFilter !== 'all') {
+                filteredTools = filteredTools.filter(tool => tool.category === currentFilter);
+            }
+
+            // Apply search filter
+            if (searchQuery) {
+                filteredTools = filteredTools.filter(tool => 
+                    tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    tool.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    tool.features.some(feature => feature.toLowerCase().includes(searchQuery.toLowerCase()))
+                );
+            }
+
+            if (filteredTools.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔧</div>
+                        <h3>No tools found</h3>
+                        <p>Try adjusting your search or filter criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredTools.map(tool => `
+                <div class="tool-card" data-tool-id="${tool.id}">
+                    <div class="tool-header">
+                        <div class="tool-icon">${tool.icon}</div>
+                        <div class="tool-info">
+                            <h3 class="tool-title">${tool.title}</h3>
+                            <div class="tool-category">${tool.category}</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">${tool.description}</p>
+                    <div class="tool-features">
+                        ${tool.features.map(feature => `<span class="tool-feature">${feature}</span>`).join('')}
+                    </div>
+                    <div class="tool-actions">
+                        <button class="use-btn" onclick="useTool('${tool.url}', '${tool.title}')">
+                            Use Tool
+                        </button>
+                        <button class="bookmark-btn ${bookmarks.includes(tool.id) ? 'active' : ''}" 
+                                onclick="toggleBookmark(${tool.id})">
+                            ${bookmarks.includes(tool.id) ? '⭐' : '☆'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Use tool
+        function useTool(url, title) {
+            // Open tool in new tab
+            window.open(url, '_blank');
+            
+            // Send notification to parent
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'notification',
+                    message: `Opening ${title}...`,
+                    level: 'info'
+                }, '*');
+            }
+        }
+
+        // Toggle bookmark
+        function toggleBookmark(toolId) {
+            const index = bookmarks.indexOf(toolId);
+            if (index > -1) {
+                bookmarks.splice(index, 1);
+            } else {
+                bookmarks.push(toolId);
+            }
+            
+            localStorage.setItem('carnage_bookmarks', JSON.stringify(bookmarks));
+            renderTools();
+            
+            const tool = tools.find(t => t.id === toolId);
+            const action = bookmarks.includes(toolId) ? 'Bookmarked' : 'Removed bookmark for';
+            
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'notification',
+                    message: `${action}: ${tool.title}`,
+                    level: 'success'
+                }, '*');
+            }
+        }
+
+        // Filter tools
+        function filterTools(category) {
+            currentFilter = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.category === category) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            renderTools();
+        }
+
+        // Search tools
+        function searchTools(query) {
+            searchQuery = query;
+            renderTools();
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
+            renderTools();
+            
+            // Search input
+            const searchInput = document.getElementById('tool-search');
+            searchInput.addEventListener('input', (e) => {
+                searchTools(e.target.value);
+            });
+            
+            // Category tabs
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    filterTools(tab.dataset.category);
+                });
+            });
+        });
+
+        // Listen for theme changes
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'theme-changed') {
+                applyTheme();
+            }
+        });
+    </script>
+    <script src="js/disable-devtools.js"></script>
+    <script src="js/advanced-redirect.js"></script>
+</body>
+</html>

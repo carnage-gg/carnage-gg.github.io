@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/navbar.css">
+    <title>Home - Carnage</title>
+    <style>
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #1a1a2e;
+            --accent-bg: #16213e;
+            --card-bg: rgba(26, 26, 46, 0.9);
+            --primary-accent: #ff6b35;
+            --secondary-accent: #f39c12;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #6c757d;
+            --border-color: rgba(255, 107, 53, 0.2);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --shadow-light: rgba(255, 107, 53, 0.1);
+            --shadow-medium: rgba(255, 107, 53, 0.2);
+            --shadow-heavy: rgba(255, 107, 53, 0.3);
+            --glow-primary: 0 0 30px rgba(255, 107, 53, 0.5);
+            --glow-secondary: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Theme Support */
+        [data-theme="blue"] {
+            --primary-accent: #3b82f6;
+            --secondary-accent: #1d4ed8;
+            --border-color: rgba(59, 130, 246, 0.2);
+            --shadow-light: rgba(59, 130, 246, 0.1);
+            --shadow-medium: rgba(59, 130, 246, 0.2);
+            --shadow-heavy: rgba(59, 130, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(59, 130, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        [data-theme="green"] {
+            --primary-accent: #10b981;
+            --secondary-accent: #059669;
+            --border-color: rgba(16, 185, 129, 0.2);
+            --shadow-light: rgba(16, 185, 129, 0.1);
+            --shadow-medium: rgba(16, 185, 129, 0.2);
+            --shadow-heavy: rgba(16, 185, 129, 0.3);
+            --glow-primary: 0 0 30px rgba(16, 185, 129, 0.5);
+            --glow-secondary: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        [data-theme="purple"] {
+            --primary-accent: #8b5cf6;
+            --secondary-accent: #7c3aed;
+            --border-color: rgba(139, 92, 246, 0.2);
+            --shadow-light: rgba(139, 92, 246, 0.1);
+            --shadow-medium: rgba(139, 92, 246, 0.2);
+            --shadow-heavy: rgba(139, 92, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(139, 92, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        [data-theme="red"] {
+            --primary-accent: #ef4444;
+            --secondary-accent: #dc2626;
+            --border-color: rgba(239, 68, 68, 0.2);
+            --shadow-light: rgba(239, 68, 68, 0.1);
+            --shadow-medium: rgba(239, 68, 68, 0.2);
+            --shadow-heavy: rgba(239, 68, 68, 0.3);
+            --glow-primary: 0 0 30px rgba(239, 68, 68, 0.5);
+            --glow-secondary: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        [data-theme="pink"] {
+            --primary-accent: #ec4899;
+            --secondary-accent: #db2777;
+            --border-color: rgba(236, 72, 153, 0.2);
+            --shadow-light: rgba(236, 72, 153, 0.1);
+            --shadow-medium: rgba(236, 72, 153, 0.2);
+            --shadow-heavy: rgba(236, 72, 153, 0.3);
+            --glow-primary: 0 0 30px rgba(236, 72, 153, 0.5);
+            --glow-secondary: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        [data-theme="cyan"] {
+            --primary-accent: #06b6d4;
+            --secondary-accent: #0891b2;
+            --border-color: rgba(6, 182, 212, 0.2);
+            --shadow-light: rgba(6, 182, 212, 0.1);
+            --shadow-medium: rgba(6, 182, 212, 0.2);
+            --shadow-heavy: rgba(6, 182, 212, 0.3);
+            --glow-primary: 0 0 30px rgba(6, 182, 212, 0.5);
+            --glow-secondary: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--shadow-light) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .welcome-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            text-shadow: var(--glow-primary);
+            animation: glow-pulse 3s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes glow-pulse {
+            0% { text-shadow: var(--glow-secondary); }
+            100% { text-shadow: var(--glow-primary); }
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, var(--shadow-light) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-accent);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .action-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--shadow-light) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-accent);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .action-card:hover::before {
+            opacity: 1;
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .action-description {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .recent-activity {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recent-activity::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--shadow-light) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-item:hover {
+            background: var(--shadow-light);
+            border-radius: 8px;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .page-content {
+                padding: 1rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .action-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+   <nav class="top-navbar">
+    <div class="navbar-brand">
+        <h1 class="navbar-logo">CARNAGE</h1>
+    </div>
+    
+    <ul class="navbar-menu">
+        <li><a href="home.html" class="navbar-link" data-page="home">
+            <div class="navbar-icon home-icon"></div>
+            <span>Home</span>
+        </a></li>
+        <li><a href="games.html" class="navbar-link" data-page="games">
+            <div class="navbar-icon games-icon"></div>
+            <span>Games</span>
+        </a></li>
+        <li><a href="music.html" class="navbar-link" data-page="music">
+            <div class="navbar-icon music-icon"></div>
+            <span>Music</span>
+        </a></li>
+        <li><a href="tools.html" class="navbar-link" data-page="tools">
+            <div class="navbar-icon tools-icon"></div>
+            <span>Tools</span>
+        </a></li>
+        <li><a href="system.html" class="navbar-link" data-page="system">
+            <div class="navbar-icon system-icon"></div>
+            <span>System</span>
+        </a></li>
+        <li><a href="settings.html" class="navbar-link" data-page="settings">
+            <div class="navbar-icon settings-icon"></div>
+            <span>Settings</span>
+        </a></li>
+    </ul>
+</nav>
+</head>
+<body>
+    <div class="page-content">
+        <div class="welcome-section">
+            <h1 class="welcome-title">Welcome to Carnage</h1>
+            <p class="welcome-subtitle">Your ultimate gaming and entertainment destination</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <div class="stat-number" id="games-count">25</div>
+                <div class="stat-label">Games Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚙️</div>
+                <div class="stat-number" id="music-count">7</div>
+                <div class="stat-label">Themes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🛠️</div>
+                <div class="stat-number" id="tools-count">15</div>
+                <div class="stat-label">Tools & Utilities</div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <div class="action-card" onclick="navigateToPage('games')">
+                <div class="action-header">
+                    <div class="action-icon">🎮</div>
+                    <h3 class="action-title">Play Games</h3>
+                </div>
+                <p class="action-description">Access our collection of unblocked games including classics, puzzles, and action games.</p>
+            </div>
+
+            <div class="action-card" onclick="navigateToPage('music')">
+                <div class="action-header">
+                    <div class="action-icon">🎵</div>
+                    <h3 class="action-title">Music Search</h3>
+                </div>
+                <p class="action-description">Search and stream music from various sources with our advanced music discovery engine.</p>
+            </div>
+
+            <div class="action-card" onclick="navigateToPage('tools')">
+                <div class="action-header">
+                    <div class="action-icon">🛠️</div>
+                    <h3 class="action-title">Useful Tools</h3>
+                </div>
+                <p class="action-description">Access productivity tools, calculators, converters, and other useful utilities.</p>
+            </div>
+        </div>
+
+        <div class="recent-activity">
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-item">
+                <div class="activity-icon">🎮</div>
+                <div class="activity-content">
+                    <div class="activity-title">New games added to library</div>
+                    <div class="activity-time">2 hours ago</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">🔧</div>
+                <div class="activity-content">
+                    <div class="activity-title">System performance optimized</div>
+                    <div class="activity-time">5 hours ago</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">🎵</div>
+                <div class="activity-content">
+                    <div class="activity-title">Music search engine updated</div>
+                    <div class="activity-time">1 day ago</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">⚡</div>
+                <div class="activity-content">
+                    <div class="activity-title">Server maintenance completed</div>
+                    <div class="activity-time">2 days ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Apply theme on load
+        function applyTheme() {
+            const theme = localStorage.getItem('carnage_theme') || 'orange';
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+
+        // Listen for theme changes
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'theme-changed') {
+                applyTheme();
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
+            updateStats();
+            
+            // Update stats every 30 seconds
+            setInterval(updateStats, 30000);
+        });
+    </script>
+    <script src="js/disable-devtools.js"></script>
+    <script src="js/advanced-redirect.js"></script>
+</body>
+</html>
+       

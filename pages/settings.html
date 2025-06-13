@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/navbar.css">
+    <title>Settings - Carnage</title>
+    <style>
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #1a1a2e;
+            --accent-bg: #16213e;
+            --card-bg: rgba(26, 26, 46, 0.9);
+            --primary-accent: #ff6b35;
+            --secondary-accent: #f39c12;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #6c757d;
+            --border-color: rgba(255, 107, 53, 0.2);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --shadow-light: rgba(255, 107, 53, 0.1);
+            --shadow-medium: rgba(255, 107, 53, 0.2);
+            --shadow-heavy: rgba(255, 107, 53, 0.3);
+            --glow-primary: 0 0 30px rgba(255, 107, 53, 0.5);
+            --glow-secondary: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Theme Support */
+        [data-theme="blue"] {
+            --primary-accent: #3b82f6;
+            --secondary-accent: #1d4ed8;
+            --border-color: rgba(59, 130, 246, 0.2);
+            --shadow-light: rgba(59, 130, 246, 0.1);
+            --shadow-medium: rgba(59, 130, 246, 0.2);
+            --shadow-heavy: rgba(59, 130, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(59, 130, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        [data-theme="green"] {
+            --primary-accent: #10b981;
+            --secondary-accent: #059669;
+            --border-color: rgba(16, 185, 129, 0.2);
+            --shadow-light: rgba(16, 185, 129, 0.1);
+            --shadow-medium: rgba(16, 185, 129, 0.2);
+            --shadow-heavy: rgba(16, 185, 129, 0.3);
+            --glow-primary: 0 0 30px rgba(16, 185, 129, 0.5);
+            --glow-secondary: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        [data-theme="purple"] {
+            --primary-accent: #8b5cf6;
+            --secondary-accent: #7c3aed;
+            --border-color: rgba(139, 92, 246, 0.2);
+            --shadow-light: rgba(139, 92, 246, 0.1);
+            --shadow-medium: rgba(139, 92, 246, 0.2);
+            --shadow-heavy: rgba(139, 92, 246, 0.3);
+            --glow-primary: 0 0 30px rgba(139, 92, 246, 0.5);
+            --glow-secondary: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        [data-theme="red"] {
+            --primary-accent: #ef4444;
+            --secondary-accent: #dc2626;
+            --border-color: rgba(239, 68, 68, 0.2);
+            --shadow-light: rgba(239, 68, 68, 0.1);
+            --shadow-medium: rgba(239, 68, 68, 0.2);
+            --shadow-heavy: rgba(239, 68, 68, 0.3);
+            --glow-primary: 0 0 30px rgba(239, 68, 68, 0.5);
+            --glow-secondary: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        [data-theme="pink"] {
+            --primary-accent: #ec4899;
+            --secondary-accent: #db2777;
+            --border-color: rgba(236, 72, 153, 0.2);
+            --shadow-light: rgba(236, 72, 153, 0.1);
+            --shadow-medium: rgba(236, 72, 153, 0.2);
+            --shadow-heavy: rgba(236, 72, 153, 0.3);
+            --glow-primary: 0 0 30px rgba(236, 72, 153, 0.5);
+            --glow-secondary: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        [data-theme="cyan"] {
+            --primary-accent: #06b6d4;
+            --secondary-accent: #0891b2;
+            --border-color: rgba(6, 182, 212, 0.2);
+            --shadow-light: rgba(6, 182, 212, 0.1);
+            --shadow-medium: rgba(6, 182, 212, 0.2);
+            --shadow-heavy: rgba(6, 182, 212, 0.3);
+            --glow-primary: 0 0 30px rgba(6, 182, 212, 0.5);
+            --glow-secondary: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            text-shadow: var(--glow-primary);
+            animation: glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            0% { text-shadow: var(--glow-secondary); }
+            100% { text-shadow: var(--glow-primary); }
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .settings-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .settings-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--shadow-light) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-accent);
+            box-shadow: 0 10px 25px var(--shadow-medium);
+        }
+
+        .settings-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .setting-item {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .setting-description {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .setting-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .setting-input:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 15px var(--shadow-medium);
+        }
+
+        .setting-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ff6b35' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .theme-option {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-option.active {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 20px var(--shadow-medium);
+        }
+
+        .theme-option::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-option.active::after {
+            opacity: 1;
+        }
+
+        .theme-orange { background: linear-gradient(135deg, #ff6b35, #f39c12); }
+        .theme-blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .theme-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .theme-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .theme-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .theme-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .theme-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: 0.4s;
+            border-radius: 34px;
+            border: 1px solid var(--border-color);
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 3px;
+            background-color: var(--text-secondary);
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-accent);
+            border-color: var(--primary-accent);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+            background-color: white;
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-accent);
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--shadow-medium);
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-accent);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px var(--shadow-medium);
+        }
+
+        .range-value {
+            display: inline-block;
+            margin-left: 1rem;
+            color: var(--primary-accent);
+            font-weight: 600;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--shadow-light);
+            border-color: var(--primary-accent);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c53030);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .export-import-area {
+            margin-top: 1rem;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .file-input-wrapper:hover {
+            border-color: var(--primary-accent);
+            background: var(--shadow-light);
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .notification.error {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .page-content {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .settings-card {
+                padding: 1.5rem;
+            }
+
+            .theme-selector {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <nav class="top-navbar">
+        <div class="navbar-brand">
+            <h1 class="navbar-logo">CARNAGE</h1>
+        </div>
+        
+        <ul class="navbar-menu">
+            <li><a href="home.html" class="navbar-link" data-page="home">
+                <div class="navbar-icon home-icon"></div>
+                <span>Home</span>
+            </a></li>
+            <li><a href="games.html" class="navbar-link" data-page="games">
+                <div class="navbar-icon games-icon"></div>
+                <span>Games</span>
+            </a></li>
+            <li><a href="music.html" class="navbar-link" data-page="music">
+                <div class="navbar-icon music-icon"></div>
+                <span>Music</span>
+            </a></li>
+            <li><a href="tools.html" class="navbar-link" data-page="tools">
+                <div class="navbar-icon tools-icon"></div>
+                <span>Tools</span>
+            </a></li>
+            <li><a href="system.html" class="navbar-link" data-page="system">
+                <div class="navbar-icon system-icon"></div>
+                <span>System</span>
+            </a></li>
+            <li><a href="settings.html" class="navbar-link" data-page="settings">
+                <div class="navbar-icon settings-icon"></div>
+                <span>Settings</span>
+            </a></li>
+        </ul>
+    </nav>
+</head>
+<body>
+    <div class="page-content">
+        <div class="page-header">
+            <h1 class="page-title">Settings</h1>
+            <p class="page-subtitle">Customize your Carnage Hub experience</p>
+        </div>
+
+        <div class="settings-grid">
+            <!-- Appearance Settings -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <div class="card-icon">🎨</div>
+                    <h3 class="card-title">Appearance</h3>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Theme Color</label>
+                    <p class="setting-description">Choose your preferred color scheme</p>
+                    <div class="theme-selector">
+                        <div class="theme-option theme-orange" data-theme="orange" title="Orange"></div>
+                        <div class="theme-option theme-blue" data-theme="blue" title="Blue"></div>
+                        <div class="theme-option theme-green" data-theme="green" title="Green"></div>
+                        <div class="theme-option theme-purple" data-theme="purple" title="Purple"></div>
+                        <div class="theme-option theme-red" data-theme="red" title="Red"></div>
+                        <div class="theme-option theme-pink" data-theme="pink" title="Pink"></div>
+                        <div class="theme-option theme-cyan" data-theme="cyan" title="Cyan"></div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Animation Speed</label>
+                    <p class="setting-description">Adjust the speed of UI animations</p>
+                    <input type="range" class="range-slider" id="animation-speed" min="0.5" max="2" step="0.1" value="1">
+                    <span class="range-value" id="animation-speed-value">1x</span>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Reduce Motion</label>
+                    <p class="setting-description">Minimize animations for better accessibility</p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="reduce-motion">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- General Settings -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <div class="card-icon">⚙️</div>
+                    <h3 class="card-title">General</h3>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label" for="username">Username</label>
+                    <p class="setting-description">Your display name in the application</p>
+                    <input type="text" class="setting-input" id="username" placeholder="Enter username">
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label" for="default-page">Default Page</label>
+                    <p class="setting-description">Page to load when opening the application</p>
+                    <select class="setting-input setting-select" id="default-page">
+                        <option value="home">Home</option>
+                        <option value="games">Games</option>
+                        <option value="music">Music</option>
+                        <option value="tools">Tools</option>
+                        <option value="system">System</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Auto-save Settings</label>
+                    <p class="setting-description">Automatically save changes as you make them</p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-save" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Show Notifications</label>
+                    <p class="setting-description">Display system notifications and alerts</p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-notifications" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Privacy & Security -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <div class="card-icon">🔒</div>
+                    <h3 class="card-title">Privacy & Security</h3>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Remember Login</label>
+                    <p class="setting-description">Stay logged in between sessions</p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="remember-login" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Clear Data on Exit</label>
+                    <p class="setting-description">Automatically clear browsing data when closing</p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="clear-on-exit">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Analytics</label>
+                    <p class="setting-description">Help improve the app by sharing usage data</p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="analytics">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-danger" onclick="clearAllData()">Clear All Data</button>
+                </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <div class="card-icon">💾</div>
+                    <h3 class="card-title">Data Management</h3>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Export Settings</label>
+                    <p class="setting-description">Download your settings as a backup file</p>
+                    <button class="btn btn-secondary" onclick="exportSettings()">Export Settings</button>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Import Settings</label>
+                    <p class="setting-description">Restore settings from a backup file</p>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="import-file" accept=".json" onchange="importSettings(event)">
+                        <div>Click to select settings file or drag and drop</div>
+                    </div>
+                </div>
+
+                <div class="export-import-area">
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+                        <button class="btn btn-secondary" onclick="resetSettings()">Reset to Default</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Default settings
+        const defaultSettings = {
+            theme: 'orange',
+            username: 'User',
+            defaultPage: 'home',
+            animationSpeed: 1,
+            reduceMotion: false,
+            autoSave: true,
+            showNotifications: true,
+            rememberLogin: true,
+            clearOnExit: false,
+            analytics: false
+        };
+
+        let currentSettings = { ...defaultSettings };
+
+        // Apply theme
+        function applyTheme() {
+            const theme = currentSettings.theme || 'orange';
+            document.documentElement.setAttribute('data-theme', theme);
+            
+            // Update theme selector
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.theme === theme) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            if (!currentSettings.showNotifications) return;
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        // Load settings from localStorage
+        function loadSettings() {
+            const saved = localStorage.getItem('carnage_settings');
+            if (saved) {
+                try {
+                    currentSettings = { ...defaultSettings, ...JSON.parse(saved) };
+                } catch (e) {
+                    console.error('Failed to load settings:', e);
+                    currentSettings = { ...defaultSettings };
+                }
+            }
+            
+            // Apply settings to UI
+            document.getElementById('username').value = currentSettings.username;
+            document.getElementById('default-page').value = currentSettings.defaultPage;
+            document.getElementById('animation-speed').value = currentSettings.animationSpeed;
+            document.getElementById('animation-speed-value').textContent = currentSettings.animationSpeed + 'x';
+            document.getElementById('reduce-motion').checked = currentSettings.reduceMotion;
+            document.getElementById('auto-save').checked = currentSettings.autoSave;
+            document.getElementById('show-notifications').checked = currentSettings.showNotifications;
+            document.getElementById('remember-login').checked = currentSettings.rememberLogin;
+            document.getElementById('clear-on-exit').checked = currentSettings.clearOnExit;
+            document.getElementById('analytics').checked = currentSettings.analytics;
+            
+            applyTheme();
+            applyAnimationSpeed();
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            // Collect current values
+            currentSettings.username = document.getElementById('username').value || 'User';
+            currentSettings.defaultPage = document.getElementById('default-page').value;
+            currentSettings.animationSpeed = parseFloat(document.getElementById('animation-speed').value);
+            currentSettings.reduceMotion = document.getElementById('reduce-motion').checked;
+            currentSettings.autoSave = document.getElementById('auto-save').checked;
+            currentSettings.showNotifications = document.getElementById('show-notifications').checked;
+            currentSettings.rememberLogin = document.getElementById('remember-login').checked;
+            currentSettings.clearOnExit = document.getElementById('clear-on-exit').checked;
+            currentSettings.analytics = document.getElementById('analytics').checked;
+            
+            try {
+                localStorage.setItem('carnage_settings', JSON.stringify(currentSettings));
+                localStorage.setItem('carnage_theme', currentSettings.theme);
+                localStorage.setItem('carnage_username', currentSettings.username);
+                
+                showNotification('Settings saved successfully!');
+                
+                // Notify parent window of changes
+                if (window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'settings-changed',
+                        settings: currentSettings
+                    }, '*');
+                }
+            } catch (e) {
+                console.error('Failed to save settings:', e);
+                showNotification('Failed to save settings', 'error');
+            }
+        }
+
+        // Auto-save functionality
+        function autoSave() {
+            if (currentSettings.autoSave) {
+                saveSettings();
+            }
+        }
+
+        // Apply animation speed
+        function applyAnimationSpeed() {
+            const speed = currentSettings.animationSpeed;
+            const root = document.documentElement;
+            root.style.setProperty('--animation-duration-fast', (0.2 / speed) + 's');
+            root.style.setProperty('--animation-duration-normal', (0.3 / speed) + 's');
+            root.style.setProperty('--animation-duration-slow', (0.5 / speed) + 's');
+            
+            if (currentSettings.reduceMotion) {
+                root.style.setProperty('--animation-duration-fast', '0.01s');
+                root.style.setProperty('--animation-duration-normal', '0.01s');
+                root.style.setProperty('--animation-duration-slow', '0.01s');
+            }
+        }
+
+        // Theme selection
+        function selectTheme(theme) {
+            currentSettings.theme = theme;
+            applyTheme();
+            autoSave();
+            
+            // Notify parent window
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'theme-changed',
+                    theme: theme
+                }, '*');
+            }
+        }
+
+        // Export settings
+        function exportSettings() {
+            const dataStr = JSON.stringify(currentSettings, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'carnage-hub-settings.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Settings exported successfully!');
+        }
+
+        // Import settings
+        function importSettings(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedSettings = JSON.parse(e.target.result);
+                    
+                    // Validate imported settings
+                    const validSettings = {};
+                    Object.keys(defaultSettings).forEach(key => {
+                        if (importedSettings.hasOwnProperty(key)) {
+                            validSettings[key] = importedSettings[key];
+                        } else {
+                            validSettings[key] = defaultSettings[key];
+                        }
+                    });
+                    
+                    currentSettings = validSettings;
+                    loadSettings();
+                    saveSettings();
+                    
+                    showNotification('Settings imported successfully!');
+                } catch (error) {
+                    console.error('Import error:', error);
+                    showNotification('Failed to import settings. Invalid file format.', 'error');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Clear the input
+            event.target.value = '';
+        }
+
+        // Reset settings
+        function resetSettings() {
+            if (confirm('Are you sure you want to reset all settings to default? This action cannot be undone.')) {
+                currentSettings = { ...defaultSettings };
+                loadSettings();
+                saveSettings();
+                showNotification('Settings reset to default!');
+            }
+        }
+
+        // Clear all data
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all data? This will remove all settings, saved data, and cannot be undone.')) {
+                try {
+                    // Clear all localStorage items related to the app
+                    const keysToRemove = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key.startsWith('carnage_')) {
+                            keysToRemove.push(key);
+                        }
+                    }
+                    
+                    keysToRemove.forEach(key => localStorage.removeItem(key));
+                    
+                    // Reset to defaults
+                    currentSettings = { ...defaultSettings };
+                    loadSettings();
+                    
+                    showNotification('All data cleared successfully!');
+                    
+                    // Notify parent window
+                    if (window.parent !== window) {
+                        window.parent.postMessage({
+                            type: 'data-cleared'
+                        }, '*');
+                    }
+                } catch (e) {
+                    console.error('Failed to clear data:', e);
+                    showNotification('Failed to clear data', 'error');
+                }
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            
+            // Theme selection
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    selectTheme(option.dataset.theme);
+                });
+            });
+            
+            // Animation speed slider
+            const animationSlider = document.getElementById('animation-speed');
+            const animationValue = document.getElementById('animation-speed-value');
+            
+            animationSlider.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                animationValue.textContent = value + 'x';
+                currentSettings.animationSpeed = value;
+                applyAnimationSpeed();
+                autoSave();
+            });
+            
+            // Reduce motion toggle
+            document.getElementById('reduce-motion').addEventListener('change', (e) => {
+                currentSettings.reduceMotion = e.target.checked;
+                applyAnimationSpeed();
+                autoSave();
+            });
+            
+            // Auto-save for other inputs
+            const autoSaveInputs = [
+                'username', 'default-page', 'auto-save', 'show-notifications',
+                'remember-login', 'clear-on-exit', 'analytics'
+            ];
+            
+            autoSaveInputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', autoSave);
+                    if (element.type === 'text') {
+                        element.addEventListener('input', autoSave);
+                    }
+                }
+            });
+            
+            // File drag and drop
+            const fileWrapper = document.querySelector('.file-input-wrapper');
+            
+            fileWrapper.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileWrapper.style.borderColor = 'var(--primary-accent)';
+                fileWrapper.style.background = 'var(--shadow-light)';
+            });
+            
+            fileWrapper.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                fileWrapper.style.borderColor = 'var(--border-color)';
+                fileWrapper.style.background = 'rgba(255, 255, 255, 0.05)';
+            });
+            
+            fileWrapper.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileWrapper.style.borderColor = 'var(--border-color)';
+                fileWrapper.style.background = 'rgba(255, 255, 255, 0.05)';
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const fileInput = document.getElementById('import-file');
+                    fileInput.files = files;
+                    importSettings({ target: fileInput });
+                }
+            });
+        });
+
+        // Listen for messages from parent window
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'theme-changed') {
+                applyTheme();
+            }
+        });
+
+        // Handle page unload
+        window.addEventListener('beforeunload', () => {
+            if (currentSettings.clearOnExit) {
+                // Clear sensitive data but keep settings
+                const settingsToKeep = ['theme', 'username', 'defaultPage', 'animationSpeed', 'reduceMotion', 'autoSave', 'showNotifications'];
+                const filteredSettings = {};
+                settingsToKeep.forEach(key => {
+                    if (currentSettings[key] !== undefined) {
+                        filteredSettings[key] = currentSettings[key];
+                    }
+                });
+                localStorage.setItem('carnage_settings', JSON.stringify(filteredSettings));
+            }
+        });
+    </script>
+    <script src="js/disable-devtools.js"></script>
+    <script src="js/advanced-redirect.js"></script>
+</body>
+</html>
