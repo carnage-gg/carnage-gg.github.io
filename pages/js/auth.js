@@ -1,5 +1,5 @@
 // Authentication system with theme support
-const WEBSITE_PASSWORD = 'diddyisinmygyaat';
+const WEBSITE_PASSWORD = 'aliisop';
 
 // Check if user is already authenticated
 function checkAuth() {
