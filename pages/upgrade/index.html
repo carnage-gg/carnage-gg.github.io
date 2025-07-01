@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Carnage Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="carnage-login.css">
+</head>
+
+<body>
+  <main class="login-container glass-bg">
+    <form class="login-form" id="carnage-login-form" autocomplete="off">
+      <img src="logo.svg" alt="Carnage Logo" class="login-logo">
+      <h1 class="login-title">Carnage Dashboard</h1>
+      <div class="theme-picker">
+        <span class="theme-label">Theme:</span>
+        <button type="button" class="theme-dot" data-theme="orange" aria-label="Orange"></button>
+        <button type="button" class="theme-dot" data-theme="blue" aria-label="Blue"></button>
+        <button type="button" class="theme-dot" data-theme="green" aria-label="Green"></button>
+        <button type="button" class="theme-dot" data-theme="purple" aria-label="Purple"></button>
+        <button type="button" class="theme-dot" data-theme="red" aria-label="Red"></button>
+        <button type="button" class="theme-dot" data-theme="pink" aria-label="Pink"></button>
+        <button type="button" class="theme-dot" data-theme="cyan" aria-label="Cyan"></button>
+        <button type="button" class="theme-dot" data-theme="indigo" aria-label="Indigo"></button>
+      </div>
+      <p class="login-sub">Enter password to continue</p>
+      <div class="input-wrap">
+        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" autofocus>
+        <button type="button" id="toggle-password" title="Show/Hide Password">👁️</button>
+      </div>
+      <button type="submit" class="login-btn" id="login-btn">Unlock</button>
+      <div class="login-error" id="login-error"></div>
+    </form>
+  </main>
+  <script src="carnage-login.js"></script>
+</body>
+
+</html>

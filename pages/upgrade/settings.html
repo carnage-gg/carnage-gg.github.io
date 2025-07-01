@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Carnage - Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="password-overlay" class="overlay hidden"></div>
+  <div id="transition-overlay" class="transition-overlay"></div>
+  <nav class="top-navbar">
+    <div class="navbar-brand">
+      <img src="logo.svg" class="logo" alt="Carnage Logo">
+      <span class="navbar-logo-text">Carnage</span>
+    </div>
+    <ul class="navbar-menu">
+      <li><a href="home.html" class="navbar-link">Home</a></li>
+      <li><a href="games.html" class="navbar-link">Games</a></li>
+      <li><a href="music.html" class="navbar-link">Music</a></li>
+      <li><a href="tools.html" class="navbar-link">Tools</a></li>
+      <li><a href="system.html" class="navbar-link">System</a></li>
+      <li><a href="settings.html" class="navbar-link active">Settings</a></li>
+    </ul>
+    <button class="theme-toggle" title="Switch Theme"></button>
+  </nav>
+  <main class="page-content">
+    <div class="page-header">
+      <h1 class="page-title">Settings</h1>
+      <p class="page-subtitle">Themes, privacy, data, account, and more.</p>
+    </div>
+    <div class="settings-cards">
+      <div class="settings-card theme-card-grid">
+        <h3>Themes</h3>
+        <div class="theme-grid">
+          <button class="theme-option" data-theme="orange">Orange</button>
+          <button class="theme-option" data-theme="blue">Blue</button>
+          <button class="theme-option" data-theme="green">Green</button>
+          <button class="theme-option" data-theme="purple">Purple</button>
+          <button class="theme-option" data-theme="red">Red</button>
+          <button class="theme-option" data-theme="pink">Pink</button>
+          <button class="theme-option" data-theme="cyan">Cyan</button>
+          <button class="theme-option" data-theme="indigo">Indigo</button>
+        </div>
+      </div>
+      <div class="settings-card">
+        <h3>Favorites</h3>
+        <button class="danger-btn" id="clear-favorites">Clear All Favorites</button>
+        <button class="info-btn" id="export-favorites">Export Favorites</button>
+        <input type="file" id="import-favorites" style="display:none;">
+        <button class="info-btn" id="import-favorites-btn">Import Favorites</button>
+      </div>
+      <div class="settings-card">
+        <h3>App</h3>
+        <button class="danger-btn" id="reset-all">Reset Everything</button>
+        <button class="info-btn" id="toggle-animations">Toggle Animations</button>
+        <button class="info-btn" id="show-about">About</button>
+        <button class="danger-btn" id="lock-now-btn">Lock Now</button>
+        <button class="info-btn" id="set-password-btn">Set Password</button>
+      </div>
+    </div>
+    <div id="about-modal" class="hidden">
+      <div class="about-content">
+        <h2>Carnage Dashboard</h2>
+        <p>Made for cyber users.<br>Features: Password, themes, glass, system, games, tools, and more.</p>
+        <button class="info-btn" id="about-close">Close</button>
+      </div>
+    </div>
+  </main>
+  <div id="toast"></div>
+  <script src="main.js"></script>
+</body>
+
+</html>

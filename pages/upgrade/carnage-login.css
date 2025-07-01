@@ -1,0 +1,294 @@
+:root {
+    /* Default (orange) */
+    --accent: #ff9900;
+    --accent2: #fff2e0;
+    --accent-glow: #ff990099;
+    --bg: #18192b;
+    --bg2: #23263b;
+    --glass: rgba(32, 30, 58, 0.97);
+    --text-main: #fff;
+    --text-muted: #ccc0ff;
+    --btn-grad: linear-gradient(90deg, #ff9900 0%, #ff2dcf 100%);
+    --dot-focus: 0 0 0 2.5px #fff, 0 0 0 7px var(--accent);
+}
+
+[data-theme="blue"] {
+    --accent: #24a1f6;
+    --accent2: #d6f1ff;
+    --accent-glow: #24a1f688;
+    --btn-grad: linear-gradient(90deg, #24a1f6 0%, #a259ff 100%);
+}
+
+[data-theme="green"] {
+    --accent: #27d14f;
+    --accent2: #e7ffe7;
+    --accent-glow: #27d14f99;
+    --btn-grad: linear-gradient(90deg, #27d14f 0%, #24f6c1 100%);
+}
+
+[data-theme="purple"] {
+    --accent: #a259ff;
+    --accent2: #ede2ff;
+    --accent-glow: #a259ff77;
+    --btn-grad: linear-gradient(90deg, #a259ff 0%, #24f6c1 100%);
+}
+
+[data-theme="red"] {
+    --accent: #ff6b35;
+    --accent2: #ffe9e0;
+    --accent-glow: #ff6b35bb;
+    --btn-grad: linear-gradient(90deg, #ff6b35 0%, #ff9900 100%);
+}
+
+[data-theme="pink"] {
+    --accent: #ff2dcf;
+    --accent2: #ffe0f5;
+    --accent-glow: #ff2dcfaa;
+    --btn-grad: linear-gradient(90deg, #ff2dcf 0%, #a259ff 100%);
+}
+
+[data-theme="cyan"] {
+    --accent: #24f6c1;
+    --accent2: #e0fff6;
+    --accent-glow: #24f6c199;
+    --btn-grad: linear-gradient(90deg, #24f6c1 0%, #24a1f6 100%);
+}
+
+[data-theme="indigo"] {
+    --accent: #2e5fff;
+    --accent2: #e4eaff;
+    --accent-glow: #2e5fff88;
+    --btn-grad: linear-gradient(90deg, #2e5fff 0%, #a259ff 100%);
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(120deg, var(--bg) 0%, var(--bg2) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    transition: background .35s;
+}
+
+.glass-bg {
+    background: var(--glass);
+    border-radius: 22px;
+    box-shadow: 0 0 32px var(--accent-glow), 0 2px 2px #23263b99;
+    border: 2.5px solid var(--accent);
+    transition: background .23s, border .23s;
+}
+
+.login-container {
+    padding: 2.5em 2em 2em 2em;
+    max-width: 370px;
+    width: 95vw;
+    text-align: center;
+    position: relative;
+    animation: login-in 0.7s cubic-bezier(.4, 2, .6, 1);
+}
+
+@keyframes login-in {
+    from {
+        opacity: 0;
+        transform: scale(.87) translateY(33px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.login-logo {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 1.1em;
+    filter: drop-shadow(0 0 24px var(--accent-glow));
+    transition: filter .24s;
+}
+
+.login-title {
+    color: var(--accent);
+    font-family: 'Orbitron', monospace, Arial, sans-serif;
+    font-size: 1.75em;
+    margin-bottom: .5em;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 22px var(--accent-glow);
+    transition: color .23s, text-shadow .23s;
+}
+
+.login-sub {
+    color: var(--accent2);
+    font-size: 1.08em;
+    margin-bottom: 1.3em;
+    font-weight: 500;
+    transition: color .23s;
+}
+
+.theme-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4em;
+    margin-bottom: 1.5em;
+}
+
+.theme-label {
+    font-size: .98em;
+    color: var(--accent2);
+    margin-right: .4em;
+    font-weight: 600;
+    letter-spacing: .5px;
+}
+
+.theme-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    margin: 0 .05em;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow .19s, border .19s;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent);
+    filter: brightness(.93);
+}
+
+.theme-dot[data-theme="orange"] {
+    background: #ff9900;
+}
+
+.theme-dot[data-theme="blue"] {
+    background: #24a1f6;
+}
+
+.theme-dot[data-theme="green"] {
+    background: #27d14f;
+}
+
+.theme-dot[data-theme="purple"] {
+    background: #a259ff;
+}
+
+.theme-dot[data-theme="red"] {
+    background: #ff6b35;
+}
+
+.theme-dot[data-theme="pink"] {
+    background: #ff2dcf;
+}
+
+.theme-dot[data-theme="cyan"] {
+    background: #24f6c1;
+}
+
+.theme-dot[data-theme="indigo"] {
+    background: #2e5fff;
+}
+
+.theme-dot:focus,
+.theme-dot.active {
+    border: 2.5px solid var(--accent);
+    box-shadow: var(--dot-focus);
+    filter: brightness(1.09) drop-shadow(0 0 8px var(--accent-glow));
+}
+
+.input-wrap {
+    display: flex;
+    align-items: center;
+    border-radius: 11px;
+    box-shadow: 0 0 8px var(--accent-glow);
+    background: #19192c;
+    margin-bottom: 1.1em;
+    border: 2px solid var(--accent);
+    transition: border .23s, box-shadow .23s;
+}
+
+.input-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 1.13em;
+    padding: 1em .9em;
+    outline: none;
+    border-radius: 10px 0 0 10px;
+    letter-spacing: 2px;
+}
+
+.input-wrap input:focus {
+    background: #23263b;
+}
+
+.input-wrap button {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 1.22em;
+    cursor: pointer;
+    padding: 0 1em;
+    border-radius: 0 10px 10px 0;
+    transition: background .17s, color .23s;
+}
+
+.input-wrap button:hover {
+    background: #1c1c2c;
+    color: var(--accent2);
+}
+
+.login-btn {
+    margin-top: .2em;
+    background: var(--btn-grad);
+    color: #fff;
+    font-size: 1.09em;
+    font-weight: 600;
+    padding: 0.86em 2em;
+    border-radius: 11px;
+    border: none;
+    box-shadow: 0 0 18px var(--accent-glow);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: filter 0.18s, transform 0.15s, background .23s;
+    outline: none;
+}
+
+.login-btn:hover {
+    filter: brightness(1.13) drop-shadow(0 0 10px var(--accent-glow));
+    transform: scale(1.03);
+}
+
+.login-error {
+    color: #ff6b35;
+    min-height: 1.2em;
+    font-size: 1em;
+    margin-bottom: .7em;
+    margin-top: .6em;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    transition: color 0.13s;
+}
+
+.login-hint {
+    color: var(--accent2);
+    opacity: 0.85;
+    font-size: 0.99em;
+    margin-top: .7em;
+    transition: color .23s;
+}
+
+.login-footer {
+    margin-top: 2.2em;
+    color: #6669a0;
+    font-size: 0.93em;
+    opacity: .8;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+    .login-container {
+        padding: 1.2em 0.2em 1.2em 0.2em;
+    }
+}

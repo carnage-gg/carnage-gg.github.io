@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Carnage - Tools</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="password-overlay" class="overlay hidden"></div>
+  <div id="transition-overlay" class="transition-overlay"></div>
+  <nav class="top-navbar">
+    <div class="navbar-brand">
+      <img src="logo.svg" class="logo" alt="Carnage Logo">
+      <span class="navbar-logo-text">Carnage</span>
+    </div>
+    <ul class="navbar-menu">
+      <li><a href="home.html" class="navbar-link">Home</a></li>
+      <li><a href="games.html" class="navbar-link">Games</a></li>
+      <li><a href="music.html" class="navbar-link">Music</a></li>
+      <li><a href="tools.html" class="navbar-link active">Tools</a></li>
+      <li><a href="system.html" class="navbar-link">System</a></li>
+      <li><a href="settings.html" class="navbar-link">Settings</a></li>
+    </ul>
+    <button class="theme-toggle" title="Switch Theme"></button>
+  </nav>
+  <main class="page-content">
+    <div class="page-header">
+      <h1 class="page-title">Tools</h1>
+      <p class="page-subtitle">Cyber glass cards: Calculator, Timer, QR, Color, Passwords, Random, Text Conversion &
+        more.</p>
+    </div>
+    <div class="tools-cards" id="tools-cards"></div>
+  </main>
+  <div id="toast"></div>
+  <script src="main.js"></script>
+</body>
+
+</html>

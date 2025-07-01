@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Carnage Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="password-overlay" class="overlay hidden"></div>
+  <div id="transition-overlay" class="transition-overlay"></div>
+  <nav class="top-navbar">
+    <div class="navbar-brand">
+      <img src="logo.svg" class="logo" alt="Carnage Logo">
+      <span class="navbar-logo-text">Carnage</span>
+    </div>
+    <ul class="navbar-menu">
+      <li><a href="home.html" class="navbar-link active">Home</a></li>
+      <li><a href="games.html" class="navbar-link">Games</a></li>
+      <li><a href="music.html" class="navbar-link">Music</a></li>
+      <li><a href="tools.html" class="navbar-link">Tools</a></li>
+      <li><a href="system.html" class="navbar-link">System</a></li>
+      <li><a href="settings.html" class="navbar-link">Settings</a></li>
+    </ul>
+    <button class="theme-toggle" title="Switch Theme"></button>
+  </nav>
+
+  <main class="page-content home-fade-in">
+    <section class="hero-section">
+      <h1 class="hero-title animate-gradient">Welcome to <span class="highlight">Carnage</span></h1>
+      <p class="hero-subtitle">The cyber glass dashboard for games, music, tools, system info, and more.</p>
+      <div class="hero-btns">
+        <a href="games.html" class="hero-btn pulse">Games</a>
+        <a href="music.html" class="hero-btn">Music</a>
+        <a href="tools.html" class="hero-btn">Tools</a>
+        <a href="system.html" class="hero-btn">System</a>
+        <a href="settings.html" class="hero-btn">Settings</a>
+      </div>
+    </section>
+    <section class="quick-cards">
+      <div class="quick-card fade-in-up">
+        <h2>⭐ Games</h2>
+        <p>Play beautiful games instantly in cyber style. Favorites included.</p>
+        <a href="games.html" class="quick-link">Go to Games →</a>
+      </div>
+      <div class="quick-card fade-in-up">
+        <h2>🎵 Music</h2>
+        <p>Type and instantly search YouTube. Lightning fast, no lag.</p>
+        <a href="music.html" class="quick-link">Go to Music →</a>
+      </div>
+      <div class="quick-card fade-in-up">
+        <h2>🛠️ Tools</h2>
+        <p>Calculator, conversions, QR, colors, password, more.</p>
+        <a href="tools.html" class="quick-link">Go to Tools →</a>
+      </div>
+      <div class="quick-card fade-in-up">
+        <h2>💻 System</h2>
+        <p>Animated battery, device, network, location and all info.</p>
+        <a href="system.html" class="quick-link">Go to System →</a>
+      </div>
+    </section>
+  </main>
+  <div id="toast"></div>
+  <script src="main.js"></script>
+</body>
+
+</html>
