@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>School Organizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="cyber-animation" class="cyber-anim">
+        <div id="cyber-name"></div>
+    </div>
+    <div id="setup-screen" class="centered-card hidden">
+        <h2>Welcome! Let's set up your account</h2>
+        <form id="setup-form">
+            <input type="text" id="setup-name" placeholder="Your Name" required>
+            <input type="text" id="setup-school" placeholder="School" required>
+            <input type="text" id="setup-grade" placeholder="Grade" required>
+            <input type="number" id="setup-age" placeholder="Age" min="5" max="25" required>
+            <input type="password" id="setup-password" placeholder="Set a password" required>
+            <button type="submit" class="neon-btn">Create Account</button>
+        </form>
+    </div>
+    <div id="login-screen" class="centered-card hidden">
+        <h2>Welcome Back!</h2>
+        <form id="login-form">
+            <input type="password" id="login-password" placeholder="Enter your password" required>
+            <button type="submit" class="neon-btn">Login</button>
+            <div id="login-error" class="error"></div>
+        </form>
+    </div>
+    <div id="main-app" class="hidden">
+        <aside id="sidebar">
+            <div class="profile-card">
+                <div id="sidebar-name"></div>
+                <div id="sidebar-school"></div>
+                <div id="sidebar-grade"></div>
+                <div id="sidebar-age"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><button data-page="home">Home</button></li>
+                    <li><button data-page="assignments">Assignments</button></li>
+                    <li><button data-page="schedule">Schedule</button></li>
+                    <li><button data-page="calendar">Calendar</button></li>
+                    <li><button data-page="links">Study Links</button></li>
+                    <li><button data-page="notes">Notes</button></li>
+                </ul>
+            </nav>
+            <button id="logout-btn" class="neon-btn small">Logout</button>
+        </aside>
+        <main id="content">
+            <!-- Page content will be loaded here -->
+        </main>
+    </div>
+    <script src="app.js"></script>
+    <script src="/script.js"></script>
+</body>
+
+</html>
