@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar - School Organizer</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div id="main-app">
+        <aside id="sidebar">
+            <div class="profile-card">
+                <div id="sidebar-name"></div>
+                <div id="sidebar-school"></div>
+                <div id="sidebar-grade"></div>
+                <div id="sidebar-age"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><button data-page="home">Home</button></li>
+                    <li><button data-page="assignments">Assignments</button></li>
+                    <li><button data-page="schedule">Schedule</button></li>
+                    <li><button data-page="calendar">Calendar</button></li>
+                    <li><button data-page="links">Study Links</button></li>
+                    <li><button data-page="notes">Notes</button></li>
+                </ul>
+            </nav>
+            <a id="logout-btn" class="neon-btn small" href="../index.html">Logout</a>
+        </aside>
+        <main id="content">
+            <div class="page-title">Calendar</div>
+            <div class="card">
+                <div style="display:flex;align-items:center;gap:1em;margin-bottom:1em;">
+                    <span style="font-size:1.2em;" id="cal-month"></span>
+                </div>
+                <div id="calendar"></div>
+            </div>
+            <div id="modal-bg"></div>
+            <div id="calendar-modal">
+                <div id="calendar-modal-content"></div>
+            </div>
+        </main>
+    </div>
+    <script>
+        const data = JSON.parse(localStorage.getItem('cyberSchoolData') || '{}');
+        document.getElementById('sidebar-name').textContent = data.name || '';
+        document.getElementById('sidebar-school').textContent = data.school || '';
+        document.getElementById('sidebar-grade').textContent = data.grade ? `Grade: ${data.grade}` : '';
+        document.getElementById('sidebar-age').textContent = data.age ? `Age: ${data.age}` : '';
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const first = new Date(year, month, 1);
+        const last = new Date(year, month + 1, 0);
+        const monthEvents = (data.calendar || {})[`${year}-${month + 1}`] || {};
+        const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let cells = [];
+        for (let i = 0; i < first.getDay(); ++i) cells.push('');
+        for (let d = 1; d <= last.getDate(); ++d) cells.push(d);
+        while (cells.length % 7 !== 0) cells.push('');
+        document.getElementById('cal-month').textContent = today.toLocaleString('default', { month: 'long' }) + " " + year;
+
+        let calHtml = weekdays.map(d => `<div style="text-align:center;font-weight:bold;color:var(--neon-blue);">${d}</div>`).join('');
+        calHtml += cells.map((d, idx) =>
+            d ?
+                `<div class="cal-cell" data-date="${year}-${month + 1}-${d}">
+          <span class="cal-date">${d}</span>
+          <div class="cal-events">${(monthEvents[d] || []).map(e => e).join('<br>')}</div>
+          <button class="cal-add-btn" data-add="${d}">+</button>
+        </div>`
+                : `<div></div>`
+        ).join('');
+        document.getElementById('calendar').innerHTML = calHtml;
+
+        function showCalendarModal(day) {
+            const modalBg = document.getElementById('modal-bg');
+            const modal = document.getElementById('calendar-modal');
+            const modalContent = document.getElementById('calendar-modal-content');
+            let monthKey = `${year}-${month + 1}`;
+            let events = ((data.calendar || {})[monthKey] || {})[day] || [];
+            modalContent.innerHTML = `
+        <h3 style="color:var(--neon-blue);margin-bottom:1em;">Events for ${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}</h3>
+        <ul style="margin-bottom:1.2em;">
+          ${events.length === 0 ? '<li style="color:#fff7">No events.</li>' :
+                    events.map((ev, i) => `
+              <li style="color:var(--neon-yellow);margin-bottom:0.3em;">
+                ${ev}
+                <button class="delete-btn" data-delidx="${i}" style="margin-left:0.8em;">Delete</button>
+              </li>
+            `).join('')}
+        </ul>
+        <form id="calendar-add-form">
+          <input type="text" id="calendar-event" placeholder="Add event..." maxlength="60" required>
+          <button class="neon-btn" style="margin-left:0.5em;">Add</button>
+        </form>
+        <button class="neon-btn small" id="calendar-close">Close</button>
+      `;
+            modalBg.style.display = modal.style.display = 'flex';
+
+            modalContent.querySelector('#calendar-add-form').onsubmit = e => {
+                e.preventDefault();
+                const val = modalContent.querySelector('#calendar-event').value.trim();
+                if (!val) return;
+                data.calendar = data.calendar || {};
+                data.calendar[monthKey] = data.calendar[monthKey] || {};
+                data.calendar[monthKey][day] = data.calendar[monthKey][day] || [];
+                data.calendar[monthKey][day].push(val);
+                localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                showCalendarModal(day);
+                renderCalendar();
+            };
+            modalContent.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.onclick = () => {
+                    data.calendar[monthKey][day].splice(+btn.dataset.delidx, 1);
+                    localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                    showCalendarModal(day);
+                    renderCalendar();
+                }
+            });
+            modalContent.querySelector('#calendar-close').onclick = closeCalendarModal;
+            modalBg.onclick = closeCalendarModal;
+        }
+        function closeCalendarModal() {
+            document.getElementById('modal-bg').style.display = "none";
+            document.getElementById('calendar-modal').style.display = "none";
+        }
+        function renderCalendar() {
+            const monthEvents = (data.calendar || {})[`${year}-${month + 1}`] || {};
+            let calHtml = weekdays.map(d => `<div style="text-align:center;font-weight:bold;color:var(--neon-blue);">${d}</div>`).join('');
+            calHtml += cells.map((d, idx) =>
+                d ?
+                    `<div class="cal-cell" data-date="${year}-${month + 1}-${d}">
+            <span class="cal-date">${d}</span>
+            <div class="cal-events">${(monthEvents[d] || []).map(e => e).join('<br>')}</div>
+            <button class="cal-add-btn" data-add="${d}">+</button>
+          </div>`
+                    : `<div></div>`
+            ).join('');
+            document.getElementById('calendar').innerHTML = calHtml;
+            document.querySelectorAll('.cal-add-btn').forEach(btn => {
+                btn.onclick = e => {
+                    const d = btn.dataset.add;
+                    showCalendarModal(d);
+                    e.stopPropagation();
+                };
+            });
+            document.querySelectorAll('.cal-cell').forEach(cell => {
+                cell.onclick = e => {
+                    if (e.target.classList.contains('cal-add-btn')) return;
+                    const d = cell.dataset.date.split('-')[2];
+                    showCalendarModal(d);
+                }
+            });
+        }
+        renderCalendar();
+
+        document.querySelectorAll('#sidebar nav button[data-page]').forEach(btn => {
+            btn.onclick = () => {
+                window.location.href = btn.dataset.page + '.html';
+            };
+        });
+    </script>
+    <script src="../script.js"></script>
+</body>
+
+</html>

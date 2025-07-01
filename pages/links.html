@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Study Links - School Organizer</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div id="main-app">
+        <aside id="sidebar">
+            <div class="profile-card">
+                <div id="sidebar-name"></div>
+                <div id="sidebar-school"></div>
+                <div id="sidebar-grade"></div>
+                <div id="sidebar-age"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><button data-page="home">Home</button></li>
+                    <li><button data-page="assignments">Assignments</button></li>
+                    <li><button data-page="schedule">Schedule</button></li>
+                    <li><button data-page="calendar">Calendar</button></li>
+                    <li><button data-page="links">Study Links</button></li>
+                    <li><button data-page="notes">Notes</button></li>
+                </ul>
+            </nav>
+            <a id="logout-btn" class="neon-btn small" href="../index.html">Logout</a>
+        </aside>
+        <main id="content">
+            <div class="page-title">Study Links</div>
+            <div class="card">
+                <form id="link-form" style="display:flex;gap:1em;align-items:end;flex-wrap:wrap;">
+                    <div>
+                        <label>Site Name</label>
+                        <input type="text" id="link-name" placeholder="e.g. W3Schools" maxlength="30" required>
+                    </div>
+                    <div>
+                        <label>URL</label>
+                        <input type="text" id="link-url" placeholder="https://..." maxlength="120" required>
+                    </div>
+                    <button class="neon-btn" style="margin-bottom:0.2em;">Add</button>
+                </form>
+                <ul class="study-links-list">
+                    <!-- Links will be rendered here by JS -->
+                </ul>
+            </div>
+        </main>
+    </div>
+    <script>
+        const data = JSON.parse(localStorage.getItem('cyberSchoolData') || '{}');
+        document.getElementById('sidebar-name').textContent = data.name || '';
+        document.getElementById('sidebar-school').textContent = data.school || '';
+        document.getElementById('sidebar-grade').textContent = data.grade ? `Grade: ${data.grade}` : '';
+        document.getElementById('sidebar-age').textContent = data.age ? `Age: ${data.age}` : '';
+
+        const links = data.links || [];
+        const list = document.querySelector('.study-links-list');
+        function renderLinks() {
+            if (links.length === 0) {
+                list.innerHTML = '<li>No links added.</li>';
+            } else {
+                list.innerHTML = links.map((l, i) => `
+          <li>
+            <a href="${l.url}" target="_blank">${l.name}</a>
+            <button class="remove-link" data-delidx="${i}" title="Delete">❌</button>
+          </li>
+        `).join('');
+                document.querySelectorAll('.remove-link').forEach(btn => {
+                    btn.onclick = function () {
+                        links.splice(+btn.dataset.delidx, 1);
+                        data.links = links;
+                        localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                        renderLinks();
+                    }
+                });
+            }
+        }
+        renderLinks();
+
+        document.getElementById('link-form').onsubmit = function (e) {
+            e.preventDefault();
+            const name = document.getElementById('link-name').value.trim();
+            const url = document.getElementById('link-url').value.trim();
+            if (!name || !url) return;
+            links.push({ name, url });
+            data.links = links;
+            localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+            this.reset();
+            renderLinks();
+        };
+
+        document.querySelectorAll('#sidebar nav button[data-page]').forEach(btn => {
+            btn.onclick = () => {
+                window.location.href = btn.dataset.page + '.html';
+            };
+        });
+    </script>
+    <script src="../script.js"></script>
+</body>
+
+</html>

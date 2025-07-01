@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Assignments - School Organizer</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div id="main-app">
+        <aside id="sidebar">
+            <div class="profile-card">
+                <div id="sidebar-name"></div>
+                <div id="sidebar-school"></div>
+                <div id="sidebar-grade"></div>
+                <div id="sidebar-age"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><button data-page="home">Home</button></li>
+                    <li><button data-page="assignments">Assignments</button></li>
+                    <li><button data-page="schedule">Schedule</button></li>
+                    <li><button data-page="calendar">Calendar</button></li>
+                    <li><button data-page="links">Study Links</button></li>
+                    <li><button data-page="notes">Notes</button></li>
+                </ul>
+            </nav>
+            <a id="logout-btn" class="neon-btn small" href="../index.html">Logout</a>
+        </aside>
+        <main id="content">
+            <div class="page-title">Assignments</div>
+            <div class="card">
+                <form id="assignment-form" style="display:flex;flex-wrap:wrap;gap:1em;align-items:end;">
+                    <div style="flex:2;min-width:160px">
+                        <label>Assignment</label>
+                        <input type="text" id="assign-title" required maxlength="60" placeholder="Title">
+                    </div>
+                    <div>
+                        <label>Due Date</label>
+                        <input type="date" id="assign-due" required>
+                    </div>
+                    <button class="neon-btn" style="margin-bottom:0.2em;">Add</button>
+                </form>
+                <ul class="assign-list" style="margin:1.5em 0 0 0;">
+                    <!-- Assignments will be rendered here by JS -->
+                </ul>
+            </div>
+        </main>
+    </div>
+    <script>
+        const data = JSON.parse(localStorage.getItem('cyberSchoolData') || '{}');
+        document.getElementById('sidebar-name').textContent = data.name || '';
+        document.getElementById('sidebar-school').textContent = data.school || '';
+        document.getElementById('sidebar-grade').textContent = data.grade ? `Grade: ${data.grade}` : '';
+        document.getElementById('sidebar-age').textContent = data.age ? `Age: ${data.age}` : '';
+
+        const assigns = data.assignments || [];
+        const list = document.querySelector('.assign-list');
+        function renderAssignments() {
+            if (assigns.length === 0) {
+                list.innerHTML = '<li>No assignments. 🎉</li>';
+            } else {
+                list.innerHTML = assigns.map((a, i) => `
+          <li>
+            <label>
+              <input type="checkbox" data-idx="${i}" class="assign-check" ${a.done ? 'checked' : ''}>
+              <span class="${a.done ? 'done' : ''}">${a.title}</span>
+            </label>
+            <span class="due-date">${a.due}</span>
+            <button class="delete-btn" data-delidx="${i}" title="Delete">❌</button>
+          </li>
+        `).join('');
+                document.querySelectorAll('.assign-check').forEach(cb => {
+                    cb.onchange = function () {
+                        assigns[+cb.dataset.idx].done = cb.checked;
+                        data.assignments = assigns;
+                        localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                        renderAssignments();
+                    };
+                });
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.onclick = function () {
+                        assigns.splice(+btn.dataset.delidx, 1);
+                        data.assignments = assigns;
+                        localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                        renderAssignments();
+                    }
+                });
+            }
+        }
+        renderAssignments();
+
+        document.getElementById('assignment-form').onsubmit = function (e) {
+            e.preventDefault();
+            const t = document.getElementById('assign-title').value.trim();
+            const d = document.getElementById('assign-due').value;
+            if (!t || !d) return;
+            assigns.push({ title: t, due: d, done: false });
+            data.assignments = assigns;
+            localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+            this.reset();
+            renderAssignments();
+        };
+
+        document.querySelectorAll('#sidebar nav button[data-page]').forEach(btn => {
+            btn.onclick = () => {
+                window.location.href = btn.dataset.page + '.html';
+            };
+        });
+    </script>
+    <script src="../script.js"></script>
+</body>
+
+</html>

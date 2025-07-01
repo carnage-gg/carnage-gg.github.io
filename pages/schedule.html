@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule - School Organizer</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div id="main-app">
+        <aside id="sidebar">
+            <div class="profile-card">
+                <div id="sidebar-name"></div>
+                <div id="sidebar-school"></div>
+                <div id="sidebar-grade"></div>
+                <div id="sidebar-age"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><button data-page="home">Home</button></li>
+                    <li><button data-page="assignments">Assignments</button></li>
+                    <li><button data-page="schedule">Schedule</button></li>
+                    <li><button data-page="calendar">Calendar</button></li>
+                    <li><button data-page="links">Study Links</button></li>
+                    <li><button data-page="notes">Notes</button></li>
+                </ul>
+            </nav>
+            <a id="logout-btn" class="neon-btn small" href="../index.html">Logout</a>
+        </aside>
+        <main id="content">
+            <div class="page-title">Schedule</div>
+            <div class="card">
+                <form id="schedule-form" style="display:flex;gap:1em;flex-wrap:wrap;align-items:end;">
+                    <div>
+                        <label>Period</label>
+                        <input type="text" id="sch-period" placeholder="e.g. 1" maxlength="5" style="width:3em;"
+                            required>
+                    </div>
+                    <div>
+                        <label>Subject/Class</label>
+                        <input type="text" id="sch-class" placeholder="Math" maxlength="30" required>
+                    </div>
+                    <div>
+                        <label>Time</label>
+                        <input type="text" id="sch-time" placeholder="8:00-8:50" maxlength="15" required>
+                    </div>
+                    <button class="neon-btn" style="margin-bottom:0.2em;">Add</button>
+                </form>
+                <table id="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>Class</th>
+                            <th>Time</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Schedule will be rendered here by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script>
+        const data = JSON.parse(localStorage.getItem('cyberSchoolData') || '{}');
+        document.getElementById('sidebar-name').textContent = data.name || '';
+        document.getElementById('sidebar-school').textContent = data.school || '';
+        document.getElementById('sidebar-grade').textContent = data.grade ? `Grade: ${data.grade}` : '';
+        document.getElementById('sidebar-age').textContent = data.age ? `Age: ${data.age}` : '';
+        const sch = data.schedule || [];
+        const tbody = document.querySelector('#schedule-table tbody');
+        function renderSchedule() {
+            if (sch.length === 0) {
+                tbody.innerHTML = `<tr><td colspan=4>No schedule entered.</td></tr>`;
+            } else {
+                tbody.innerHTML = sch.map((s, i) => `
+          <tr>
+            <td>${s.period}</td>
+            <td>${s.class}</td>
+            <td>${s.time}</td>
+            <td><button class="delete-btn" data-delidx="${i}" title="Delete">❌</button></td>
+          </tr>
+        `).join('');
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.onclick = function () {
+                        sch.splice(+btn.dataset.delidx, 1);
+                        data.schedule = sch;
+                        localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                        renderSchedule();
+                    };
+                });
+            }
+        }
+        renderSchedule();
+
+        document.getElementById('schedule-form').onsubmit = function (e) {
+            e.preventDefault();
+            const p = document.getElementById('sch-period').value.trim();
+            const c = document.getElementById('sch-class').value.trim();
+            const t = document.getElementById('sch-time').value.trim();
+            if (!p || !c || !t) return;
+            sch.push({ period: p, class: c, time: t });
+            data.schedule = sch;
+            localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+            this.reset();
+            renderSchedule();
+        };
+
+        document.querySelectorAll('#sidebar nav button[data-page]').forEach(btn => {
+            btn.onclick = () => {
+                window.location.href = btn.dataset.page + '.html';
+            };
+        });
+    </script>
+    <script src="../script.js"></script>
+</body>
+
+</html>

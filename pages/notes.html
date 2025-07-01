@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notes - School Organizer</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div id="main-app">
+        <aside id="sidebar">
+            <div class="profile-card">
+                <div id="sidebar-name"></div>
+                <div id="sidebar-school"></div>
+                <div id="sidebar-grade"></div>
+                <div id="sidebar-age"></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><button data-page="home">Home</button></li>
+                    <li><button data-page="assignments">Assignments</button></li>
+                    <li><button data-page="schedule">Schedule</button></li>
+                    <li><button data-page="calendar">Calendar</button></li>
+                    <li><button data-page="links">Study Links</button></li>
+                    <li><button data-page="notes">Notes</button></li>
+                </ul>
+            </nav>
+            <a id="logout-btn" class="neon-btn small" href="../index.html">Logout</a>
+        </aside>
+        <main id="content">
+            <div class="page-title">Notes</div>
+            <div class="card">
+                <form id="note-form" style="margin-bottom:1em;">
+                    <textarea id="note-content" rows="2" maxlength="400" placeholder="Type a sticky note..."
+                        required></textarea>
+                    <button class="neon-btn" style="margin-top:0.3em;">Add Note</button>
+                </form>
+                <div class="note-board">
+                    <!-- Notes will be rendered here by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        const data = JSON.parse(localStorage.getItem('cyberSchoolData') || '{}');
+        document.getElementById('sidebar-name').textContent = data.name || '';
+        document.getElementById('sidebar-school').textContent = data.school || '';
+        document.getElementById('sidebar-grade').textContent = data.grade ? `Grade: ${data.grade}` : '';
+        document.getElementById('sidebar-age').textContent = data.age ? `Age: ${data.age}` : '';
+
+        const notes = data.notes || [];
+        const board = document.querySelector('.note-board');
+        function renderNotes() {
+            if (notes.length === 0) {
+                board.innerHTML = '<div>No notes yet!</div>';
+            } else {
+                board.innerHTML = notes.map((n, i) => `
+          <div class="sticky-note" data-note="${i}">
+            <button class="note-delete" title="Delete">&times;</button>
+            <textarea>${n.text}</textarea>
+            <div class="note-date">${n.date}</div>
+          </div>
+        `).join('');
+                document.querySelectorAll('.note-delete').forEach((btn, i) => {
+                    btn.onclick = function () {
+                        notes.splice(i, 1);
+                        data.notes = notes;
+                        localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                        renderNotes();
+                    };
+                });
+                document.querySelectorAll('.sticky-note textarea').forEach((ta, i) => {
+                    ta.onchange = function () {
+                        notes[i].text = this.value;
+                        data.notes = notes;
+                        localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+                    };
+                });
+            }
+        }
+        renderNotes();
+
+        document.getElementById('note-form').onsubmit = function (e) {
+            e.preventDefault();
+            const txt = document.getElementById('note-content').value.trim();
+            if (!txt) return;
+            notes.push({ text: txt, date: (new Date()).toLocaleString() });
+            data.notes = notes;
+            localStorage.setItem('cyberSchoolData', JSON.stringify(data));
+            this.reset();
+            renderNotes();
+        };
+
+        document.querySelectorAll('#sidebar nav button[data-page]').forEach(btn => {
+            btn.onclick = () => {
+                window.location.href = btn.dataset.page + '.html';
+            };
+        });
+    </script>
+    <script src="../script.js"></script>
+</body>
+
+</html>
